@@ -1,5 +1,10 @@
 
+#function interpolates colors for continous 0:1 data
 colorRange <- function(percent = .5,colours = c('#AF2F03','white','#027A40'),trans = 1){
+  #percent: data values scaled from 0 to 1
+  #colours: colors to interpolate between
+  #trans: transparancy of colors
+  
   #cols = rgb2hsv(col2rgb(colours))
   cols = col2rgb(colours)/256
   ncolours = length(colours)
@@ -16,7 +21,13 @@ colorRange <- function(percent = .5,colours = c('#AF2F03','white','#027A40'),tra
   )
 }
 
+#function provides equally spaced colors on color wheel
 nColor <- function(number = 2,base.col = '#AF2F03',trans = 1,distinct = FALSE){
+  #number: number of colors
+  #base.col: base color to use as origin
+  #trans: transparency
+  #distinct: order colors to maximize distinction between colors
+  
   b.col = rgb2hsv(col2rgb(base.col))
   spread = 1/number
   cols = matrix(NA,3,number)
