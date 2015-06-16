@@ -15,3 +15,9 @@ Function provides equally spaced colors on color wheel
 *    base.col: base color to use as origin
 *    trans: transparency
 *    distinct: order colors to maximize distinction between colors
+
+##bivarColor 
+Function provides coloring based on two contious variables instead of just 1 (colorRange)
+
+*  v1: value between 0 and 1
+*  v2: value between 0 and 1 
