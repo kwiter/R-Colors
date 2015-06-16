@@ -63,3 +63,20 @@ nColor <- function(number = 2,base.col = '#AF2F03',trans = 1,distinct = FALSE){
   hsv(cols[1,order],cols[2,order],cols[3,order],trans)
   
 }
+
+#basic continous bivariate color scheme
+bivarColor = function(v1 = .5,v2 = .5){
+  cols = c("#64acbe","#627f8c","#574249",
+           "#b0d5df","#ad9ea5","#985356",
+           "#e8e8e8","#e4acac","#c85a5a")
+  red = col2rgb(cols)[1,]/256
+  green = col2rgb(cols)[2,]/256
+  blu = col2rgb(cols)[3,]/256
+  x = c(0,.5,1,0,.5,1,0,.5,1)
+  y = c(1,1,1,.5,.5,.5,0,0,0)
+ 
+  rgb(predict(lm(red   ~ x + y),data.frame(x = v1,y = v2)),
+      predict(lm(green ~ x + y),data.frame(x = v1,y = v2)),
+      predict(lm(blu   ~ x + y),data.frame(x = v1,y = v2)))
+
+}
