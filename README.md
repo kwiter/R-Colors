@@ -35,3 +35,5 @@ Continous bivariate color scheme using a a spline surface to interpolate colors
     *  c(top row left to right,middle row left to right,bottom row left to right)
     *  four colors minimum c(topleft,topright,bottomleft, bottomright)
 *  trans: transparency
+*  requires akima package
+*  requires fuzWHICH() function in mckFunctions or helper.github
