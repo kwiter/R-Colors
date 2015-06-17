@@ -26,6 +26,8 @@ Function provides coloring based on two contious variables instead of just 1 (co
     *  four colors minimum c(topleft,topright,bottomleft, bottomright)
 *  trans: transparency
 
+![bivariatemap](https://cloud.githubusercontent.com/assets/6601105/8219241/9c5ce406-1516-11e5-8033-a06ad4f6ba84.png)
+
 ###bivarSplineColor 
 Continous bivariate color scheme using a a spline surface to interpolate colors
 
