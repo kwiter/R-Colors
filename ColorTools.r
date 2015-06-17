@@ -64,19 +64,48 @@ nColor <- function(number = 2,base.col = '#AF2F03',trans = 1,distinct = FALSE){
   
 }
 
-#basic continous bivariate color scheme
-bivarColor = function(v1 = .5,v2 = .5){
-  cols = c("#64acbe","#627f8c","#574249",
-           "#b0d5df","#ad9ea5","#985356",
-           "#e8e8e8","#e4acac","#c85a5a")
+#continous bivariate color scheme using linear models interpolate colors
+bivarColor = function(v1 = .5,v2 = .5, cols = c("#64acbe","#627f8c","#574249",
+                                                "#b0d5df","#ad9ea5","#985356",
+                                                "#e8e8e8","#e4acac","#c85a5a")){
+ 
   red = col2rgb(cols)[1,]/256
   green = col2rgb(cols)[2,]/256
   blu = col2rgb(cols)[3,]/256
-  x = c(0,.5,1,0,.5,1,0,.5,1)
-  y = c(1,1,1,.5,.5,.5,0,0,0)
- 
+  x = rep(seq(0,1,length = sqrt(length(cols))),sqrt(length(cols)))
+  y = rep(seq(1,0,length = sqrt(length(cols))),each = sqrt(length(cols)))
   rgb(predict(lm(red   ~ x + y),data.frame(x = v1,y = v2)),
       predict(lm(green ~ x + y),data.frame(x = v1,y = v2)),
       predict(lm(blu   ~ x + y),data.frame(x = v1,y = v2)))
 
+}
+
+#continous bivariate color scheme using a a spline surface to interpolate colors
+bivarSplineColor = function(v1 = .5,v2 = .5,cols = c("#64acbe","#627f8c","#574249",
+                                                     "#b0d5df","#ad9ea5","#985356",
+                                                     "#e8e8e8","#e4acac","#c85a5a")){
+  require(akima)
+  #fuzWHICH() needs in mckFunctions or helper.github
+  red = col2rgb(cols)[1,]/256
+  green = col2rgb(cols)[2,]/256
+  blue = col2rgb(cols)[3,]/256
+  x = rep(seq(0,1,length = sqrt(length(cols))),sqrt(length(cols)))
+  y = rep(seq(1,0,length = sqrt(length(cols))),each = sqrt(length(cols)))
+  surface = interp(x= y,y= x,z = red)
+  xs = fuzWHICH(v1,surface$y)
+  ys = fuzWHICH(v2,surface$x)
+  red = surface$z[cbind(ys,xs)]
+  surface = interp(x= y,y= x,z = green)
+  xs = fuzWHICH(v1,surface$y)
+  ys = fuzWHICH(v2,surface$x)
+  green = surface$z[cbind(ys,xs)]
+  surface = interp(x= y,y= x,z = blue)
+  xs = fuzWHICH(v1,surface$y)
+  ys = fuzWHICH(v2,surface$x)
+  blue = surface$z[cbind(ys,xs)]
+  rgb(red,green,blue)
+  #rgb(predict(lm(red   ~ x + y),data.frame(x = v1,y = v2)),
+  #    predict(lm(green ~ x + y),data.frame(x = v1,y = v2)),
+  #    predict(lm(blue   ~ x + y),data.frame(x = v1,y = v2)))
+  
 }
