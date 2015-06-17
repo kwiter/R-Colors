@@ -67,7 +67,7 @@ nColor <- function(number = 2,base.col = '#AF2F03',trans = 1,distinct = FALSE){
 #continous bivariate color scheme using linear models interpolate colors
 bivarColor = function(v1 = .5,v2 = .5, cols = c("#64acbe","#627f8c","#574249",
                                                 "#b0d5df","#ad9ea5","#985356",
-                                                "#e8e8e8","#e4acac","#c85a5a")){
+                                                "#e8e8e8","#e4acac","#c85a5a"), trans = 0){
  
   red = col2rgb(cols)[1,]/256
   green = col2rgb(cols)[2,]/256
@@ -76,14 +76,14 @@ bivarColor = function(v1 = .5,v2 = .5, cols = c("#64acbe","#627f8c","#574249",
   y = rep(seq(1,0,length = sqrt(length(cols))),each = sqrt(length(cols)))
   rgb(predict(lm(red   ~ x + y),data.frame(x = v1,y = v2)),
       predict(lm(green ~ x + y),data.frame(x = v1,y = v2)),
-      predict(lm(blu   ~ x + y),data.frame(x = v1,y = v2)))
+      predict(lm(blu   ~ x + y),data.frame(x = v1,y = v2)),trans)
 
 }
 
 #continous bivariate color scheme using a a spline surface to interpolate colors
 bivarSplineColor = function(v1 = .5,v2 = .5,cols = c("#64acbe","#627f8c","#574249",
                                                      "#b0d5df","#ad9ea5","#985356",
-                                                     "#e8e8e8","#e4acac","#c85a5a")){
+                                                     "#e8e8e8","#e4acac","#c85a5a"),trans = 0){
   require(akima)
   #fuzWHICH() needs in mckFunctions or helper.github
   red = col2rgb(cols)[1,]/256
@@ -103,9 +103,5 @@ bivarSplineColor = function(v1 = .5,v2 = .5,cols = c("#64acbe","#627f8c","#57424
   xs = fuzWHICH(v1,surface$y)
   ys = fuzWHICH(v2,surface$x)
   blue = surface$z[cbind(ys,xs)]
-  rgb(red,green,blue)
-  #rgb(predict(lm(red   ~ x + y),data.frame(x = v1,y = v2)),
-  #    predict(lm(green ~ x + y),data.frame(x = v1,y = v2)),
-  #    predict(lm(blue   ~ x + y),data.frame(x = v1,y = v2)))
-  
+  rgb(red,green,blue,trans)
 }
